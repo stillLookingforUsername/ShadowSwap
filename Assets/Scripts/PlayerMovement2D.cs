@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
 public class PlayerMovement2D : MonoBehaviour
 {
+    public static PlayerMovement2D Instance { get; private set; }
     [Header("Move")]
     public float moveSpeed = 8f;
     public float airControlMultiplier = 0.7f;
@@ -14,14 +17,19 @@ public class PlayerMovement2D : MonoBehaviour
     public LayerMask groundMask;
     public Transform groundCheck;
     public Vector2 groundCheckSize = new Vector2(0.6f, 0.1f);
+    public event EventHandler OnCoinPickUp;
 
-    Rigidbody2D _rb;
-    float _move;
-    bool _jumpPressed;
-    float _coyoteTimer;
-    float _bufferTimer;
+    private Rigidbody2D _rb;
+    private float _move;
+    private bool _jumpPressed;
+    private float _coyoteTimer;
+    private float _bufferTimer;
 
-    void Awake() { _rb = GetComponent<Rigidbody2D>(); }
+    void Awake()
+    {
+        Instance = this;
+        _rb = GetComponent<Rigidbody2D>();
+    }
     void Update()
     {
         bool grounded = IsGrounded();
@@ -68,6 +76,14 @@ public class PlayerMovement2D : MonoBehaviour
         if (v.isPressed)
         {
             _bufferTimer = jumpBuffer;
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.TryGetComponent(out Collectible collectible))
+        {
+            OnCoinPickUp?.Invoke(this, EventArgs.Empty);
+            collectible.DestroySelf();
         }
     }
 

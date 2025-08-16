@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ExitDoor : MonoBehaviour
@@ -14,4 +14,5 @@ public class ExitDoor : MonoBehaviour
         }
     }
 }
+*/
 

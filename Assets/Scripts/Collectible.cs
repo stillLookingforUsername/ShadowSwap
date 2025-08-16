@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Collectible : MonoBehaviour
 {
+    /*
     public static int Collected;
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -9,4 +10,10 @@ public class Collectible : MonoBehaviour
         Collected++;
         Destroy(gameObject);
     }
+    */
+    public void DestroySelf()
+    {
+        Destroy(gameObject);
+    }
+
 }
