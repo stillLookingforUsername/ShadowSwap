@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,33 +14,45 @@ public class ShadowSwap : MonoBehaviour
     public BoxCollider2D playerCollider;                 // reference on Player
     public float swapCooldown = 0.15f;
 
-    bool _inShadow = false;
-    float _cooldown;
+    private bool _inShadow = false;
+    private float _cooldown;
+    public enum Lane{OverWorld,ShadowWorld}
+    public Lane currentLane = Lane.OverWorld;
 
-    void Reset()
+    public static event EventHandler<OnLaneChangedEventArgs> OnLaneChanged;
+    public class OnLaneChangedEventArgs : EventArgs
+    {
+        public Lane NewLane { get; }
+        public OnLaneChangedEventArgs(Lane newLane)
+        {
+            NewLane = newLane;
+        }
+    }
+
+    private void Reset()
     {
         playerCollider = GetComponent<BoxCollider2D>();
     }
 
-    void Update()
+    private void Update()
     {
         _cooldown = Mathf.Max(0, _cooldown - Time.deltaTime);
         UpdateGhost();
     }
 
-    void UpdateGhost()
+    private void UpdateGhost()
     {
         Vector3 target = GetTargetPos();
         if (shadowGhost) shadowGhost.position = target;
         if (ghostRenderer) ghostRenderer.color = IsSwapSafe(target) ? Color.green : Color.red;
     }
 
-    Vector3 GetTargetPos()
+    private Vector3 GetTargetPos()
     {
         return transform.position + (_inShadow ? (Vector3)(-shadowOffset) : (Vector3)shadowOffset);
     }
 
-    bool IsSwapSafe(Vector3 targetPos)
+    private bool IsSwapSafe(Vector3 targetPos)
     {
         if (!playerCollider) return true;
         Vector2 size = playerCollider.bounds.size * 0.98f; // tiny shrink to avoid false positives
@@ -56,6 +69,9 @@ public class ShadowSwap : MonoBehaviour
         transform.position = target;
         _inShadow = !_inShadow;
         _cooldown = swapCooldown;
+        currentLane = (currentLane == Lane.OverWorld) ? Lane.ShadowWorld : Lane.OverWorld;
+
+        OnLaneChanged?.Invoke(this, new OnLaneChangedEventArgs(currentLane));
 
         // Optional: tiny hitstop for juice
         // StartCoroutine(Hitstop(0.05f));

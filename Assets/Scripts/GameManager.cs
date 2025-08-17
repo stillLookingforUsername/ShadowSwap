@@ -1,11 +1,14 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    private int score;
+    private int score = 0;
+    public int requiredScore = 3;
+    public ExitDoor exitDoor;
 
     private void Awake()
     {
@@ -21,12 +24,18 @@ public class GameManager : MonoBehaviour
 
     private void PlayerMovement2D_OnCoinPickUp(object sender, EventArgs e)
     {
-        AddScore(10);
+        AddScore(1);
     }
 
     private void AddScore(int scoreAmt)
     {
         score += scoreAmt;
         Debug.Log("Score: " + score);
+
+        if (score >= requiredScore && exitDoor != null)
+        {
+            Debug.Log("Sufficient Score");
+            exitDoor.Open();
+        }
     }
 }

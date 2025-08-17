@@ -25,12 +25,12 @@ public class PlayerMovement2D : MonoBehaviour
     private float _coyoteTimer;
     private float _bufferTimer;
 
-    void Awake()
+    private void Awake()
     {
         Instance = this;
         _rb = GetComponent<Rigidbody2D>();
     }
-    void Update()
+    private void Update()
     {
         bool grounded = IsGrounded();
         _coyoteTimer = grounded ? coyoteTime : Mathf.Max(0, _coyoteTimer - Time.deltaTime);
@@ -44,20 +44,20 @@ public class PlayerMovement2D : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         float target = _move * moveSpeed;
         float control = IsGrounded() ? 1f : airControlMultiplier;
         _rb.linearVelocity = new Vector2(Mathf.Lerp(_rb.linearVelocity.x, target, 0.2f * control), _rb.linearVelocity.y);
     }
 
-    bool IsGrounded()
+    private bool IsGrounded()
     {
         Vector2 pos = groundCheck ? (Vector2)groundCheck.position : (Vector2)transform.position + Vector2.down * 0.6f;
         return Physics2D.OverlapBox(pos, groundCheckSize, 0f, groundMask);
     }
 
-    void Jump()
+    private void Jump()
     {
         Vector2 v = _rb.linearVelocity;
         v.y = jumpForce;
@@ -87,7 +87,7 @@ public class PlayerMovement2D : MonoBehaviour
         }
     }
 
-    void OnDrawGizmosSelected()
+    private void OnDrawGizmosSelected()
     {
         if (groundCheck)
         {
