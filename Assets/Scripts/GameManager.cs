@@ -38,4 +38,8 @@ public class GameManager : MonoBehaviour
             exitDoor.Open();
         }
     }
+    public int GetScore()
+    {
+        return score;
+    }
 }

@@ -1,4 +1,6 @@
 using System;
+//using Microsoft.Unity.VisualStudio.Editor;
+using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +16,8 @@ public class ShadowSwap : MonoBehaviour
     public BoxCollider2D playerCollider;                 // reference on Player
     public float swapCooldown = 0.15f;
 
+    [Header("UI Indicator")]
+    public Image swapIndicatorUI;
     private bool _inShadow = false;
     private float _cooldown;
     public enum Lane{OverWorld,ShadowWorld}
@@ -44,7 +48,12 @@ public class ShadowSwap : MonoBehaviour
     {
         Vector3 target = GetTargetPos();
         if (shadowGhost) shadowGhost.position = target;
+        bool safe = IsSwapSafe(target);
         if (ghostRenderer) ghostRenderer.color = IsSwapSafe(target) ? Color.green : Color.red;
+        if (swapIndicatorUI)
+        {
+            swapIndicatorUI.color = safe ? Color.green : Color.red;
+        }
     }
 
     private Vector3 GetTargetPos()
