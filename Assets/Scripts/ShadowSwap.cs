@@ -18,9 +18,11 @@ public class ShadowSwap : MonoBehaviour
 
     [Header("UI Indicator")]
     public Image swapIndicatorUI;
+    public Image cooldownUI;
+
     private bool _inShadow = false;
     private float _cooldown;
-    public enum Lane{OverWorld,ShadowWorld}
+    public enum Lane { OverWorld, ShadowWorld }
     public Lane currentLane = Lane.OverWorld;
 
     public static event EventHandler<OnLaneChangedEventArgs> OnLaneChanged;
@@ -42,6 +44,7 @@ public class ShadowSwap : MonoBehaviour
     {
         _cooldown = Mathf.Max(0, _cooldown - Time.deltaTime);
         UpdateGhost();
+        UpdateCooldownUI();
     }
 
     private void UpdateGhost()
@@ -53,6 +56,15 @@ public class ShadowSwap : MonoBehaviour
         if (swapIndicatorUI)
         {
             swapIndicatorUI.color = safe ? Color.green : Color.red;
+        }
+    }
+    private void UpdateCooldownUI()
+    {
+        if (cooldownUI)
+        {
+            //normalize value : 1 = full , 0 = ready
+            float t = 1f - (_cooldown / swapCooldown);
+            cooldownUI.fillAmount = t;
         }
     }
 
