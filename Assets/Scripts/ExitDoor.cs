@@ -24,6 +24,7 @@ public class ExitDoor : MonoBehaviour
             Debug.Log("Level Completed");
 
             //Load next Level
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             //Move the Door using Dotween to show the is opening,etc
         }
     }
