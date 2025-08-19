@@ -5,6 +5,7 @@ public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private int maxHealth = 3;
     private int currentHealth;
+    private PlayerMovement2D playerMovement2D;
 
     // Event so UI (or other systems) can react to health changes
     public event Action<int, int> OnHealthChanged;
@@ -13,6 +14,7 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth = maxHealth;
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
+        playerMovement2D = GetComponent<PlayerMovement2D>();
     }
 
     public void TakeDamage(int damage)
@@ -23,9 +25,14 @@ public class PlayerHealth : MonoBehaviour
         if (currentHealth <= 0)
         {
             Debug.Log("Player died");
-            
+            Die();
         }
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
+    }
+    private void Die()
+    {
+        currentHealth = maxHealth;
+        playerMovement2D.Respawn();
     }
 
 /*

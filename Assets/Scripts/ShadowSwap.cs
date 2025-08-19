@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class ShadowSwap : MonoBehaviour
 {
     [Header("Shadow World")]
-    public Vector2 shadowOffset = new Vector2(40f, 0f); // distance between lanes
+    public Vector2 shadowOffset = new Vector2(70f, 0f); // distance between lanes
     public Transform shadowGhost;                        // visual ghost
     public SpriteRenderer ghostRenderer;                 // to tint green/red
     public LayerMask blockingMask;                       // Ground_Over + Ground_Shadow + Hazards + NoSwap

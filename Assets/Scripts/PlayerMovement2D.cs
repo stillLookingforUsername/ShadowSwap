@@ -24,12 +24,18 @@ public class PlayerMovement2D : MonoBehaviour
     private bool _jumpPressed;
     private float _coyoteTimer;
     private float _bufferTimer;
+    private Vector3 _respawnPoint;
 
     private void Awake()
     {
         Instance = this;
         _rb = GetComponent<Rigidbody2D>();
     }
+    private void Start()
+    {
+        _respawnPoint = transform.position;
+    }
+
     private void Update()
     {
         bool grounded = IsGrounded();
@@ -51,7 +57,7 @@ public class PlayerMovement2D : MonoBehaviour
         _rb.linearVelocity = new Vector2(Mathf.Lerp(_rb.linearVelocity.x, target, 0.2f * control), _rb.linearVelocity.y);
     }
 
-    private bool IsGrounded()
+    public bool IsGrounded()
     {
         Vector2 pos = groundCheck ? (Vector2)groundCheck.position : (Vector2)transform.position + Vector2.down * 0.6f;
         return Physics2D.OverlapBox(pos, groundCheckSize, 0f, groundMask);
@@ -85,6 +91,23 @@ public class PlayerMovement2D : MonoBehaviour
             OnCoinPickUp?.Invoke(this, EventArgs.Empty);
             collectible.DestroySelf();
         }
+    }
+
+    public void SetRespawn(Vector3 newPoint)
+    {
+        _respawnPoint = newPoint;
+    }
+    public float GetMoveInput()
+    {
+        return _move;
+    }
+    public Vector2 GetLinearVelocity()
+    {
+        return _rb.linearVelocity;
+    }
+    public void Respawn()
+    {
+        transform.position = _respawnPoint;
     }
 
     private void OnDrawGizmosSelected()
