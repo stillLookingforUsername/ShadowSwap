@@ -3,12 +3,17 @@ using System;
 
 public class PlayerHealth : MonoBehaviour
 {
+    public static PlayerHealth Instance;
     [SerializeField] private int maxHealth = 3;
     private int currentHealth;
     private PlayerMovement2D playerMovement2D;
 
     // Event so UI (or other systems) can react to health changes
     public event Action<int, int> OnHealthChanged;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -29,7 +34,7 @@ public class PlayerHealth : MonoBehaviour
         }
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
-    private void Die()
+    public void Die()
     {
         currentHealth = maxHealth;
         playerMovement2D.Respawn();

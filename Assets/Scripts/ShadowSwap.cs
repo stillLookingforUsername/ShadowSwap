@@ -16,6 +16,10 @@ public class ShadowSwap : MonoBehaviour
     public BoxCollider2D playerCollider;                 // reference on Player
     public float swapCooldown = 0.15f;
 
+    [Header("Shadow Timer")]
+    public float shadowTimeLimit = 5f;
+    private float shadowTimer;
+
     [Header("UI Indicator")]
     public Image swapIndicatorUI;
     public Image cooldownUI;
@@ -24,6 +28,8 @@ public class ShadowSwap : MonoBehaviour
     private float _cooldown;
     public enum Lane { OverWorld, ShadowWorld }
     public Lane currentLane = Lane.OverWorld;
+    [Header("TimerUI")]
+    public TMPro.TextMeshProUGUI shadowTimerUI;
 
     public static event EventHandler<OnLaneChangedEventArgs> OnLaneChanged;
     public class OnLaneChangedEventArgs : EventArgs
@@ -45,8 +51,31 @@ public class ShadowSwap : MonoBehaviour
         _cooldown = Mathf.Max(0, _cooldown - Time.deltaTime);
         UpdateGhost();
         UpdateCooldownUI();
+        UpdateShadowTimer();
     }
 
+    private void UpdateShadowTimer()
+    {
+        if (_inShadow)
+        {
+            shadowTimer -= Time.deltaTime;
+            if (shadowTimer <= 0f)
+            {
+                Debug.Log("Player Dies");
+                PlayerHealth.Instance.Die();
+            }
+        }
+        else
+        {
+            //reset in Overworld
+            shadowTimer = shadowTimeLimit;
+        }
+        if (shadowTimerUI)
+        {
+            shadowTimerUI.text = shadowTimer.ToString("0.0");
+        }
+
+    }
     private void UpdateGhost()
     {
         Vector3 target = GetTargetPos();
