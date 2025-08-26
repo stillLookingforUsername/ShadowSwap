@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     private int score = 0;
     public int requiredScore = 3;
-    public ExitDoor exitDoor;
 
     private void Awake()
     {
@@ -24,12 +23,8 @@ public class GameManager : MonoBehaviour
             return;
         }
     }
-    /*
-    private void Start()
-    {
-        PlayerMovement2D.Instance.OnCoinPickUp += PlayerMovement2D_OnCoinPickUp;
-    }
-    */
+  
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -60,12 +55,6 @@ public class GameManager : MonoBehaviour
     {
         score += scoreAmt;
         Debug.Log("Score: " + score);
-
-        if (score >= requiredScore && exitDoor != null)
-        {
-            Debug.Log("Sufficient Score");
-            exitDoor.Open();
-        }
     }
     public int GetScore()
     {

@@ -66,7 +66,6 @@ public class PlayerMovement2D : MonoBehaviour
 
     private void Jump()
     {
-        SoundManager.PlaySound(SoundType.JUMP);
         Vector2 v = _rb.linearVelocity;
         v.y = jumpForce;
         _rb.linearVelocity = v;
@@ -79,7 +78,6 @@ public class PlayerMovement2D : MonoBehaviour
     public void OnMove(InputValue v)
     {
         _move = v.Get<float>();
-        SoundManager.PlaySound(SoundType.RUNNING);
     }
     public void OnJump(InputValue v)
     {
@@ -93,7 +91,6 @@ public class PlayerMovement2D : MonoBehaviour
         if (other.gameObject.TryGetComponent(out Collectible collectible))
         {
             OnCoinPickUp?.Invoke(this, EventArgs.Empty);
-            SoundManager.PlaySound(SoundType.COIN);
             collectible.DestroySelf();
         }
     }
