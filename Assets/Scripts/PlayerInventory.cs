@@ -7,18 +7,24 @@ public class PlayerInventory : MonoBehaviour
     [Header("Box prefab to spawn")]
     public GameObject smallBoxPrefab;
     public GameObject bigBoxPrefab;
-
-    public List<BoxType> inventory = new List<BoxType>();
+    public InventoryUI ui;
+    [SerializeField]
+    private Dictionary<BoxType, int> inventory = new Dictionary<BoxType, int>()
+    {
+        {BoxType.Small,0},
+        {BoxType.Big,0},
+    };
 
     public void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.TryGetComponent(out CollectibleBox box))
         {
             if (!box.canPickUp) return;     //don't pick up world box or after it's spawned
-            inventory.Add(box.boxType);
+            inventory[box.boxType]++;   //increaes count
             Destroy(other.gameObject);
             Debug.Log("Pick Up : " + box.boxType);
         }
+        UpdateUI();
     }
 
     private void Update()
@@ -35,23 +41,32 @@ public class PlayerInventory : MonoBehaviour
 
     private void SpawnBox(BoxType type)
     {
-        if (!inventory.Contains(type))
+        if (inventory[type] <= 0)
         {
             Debug.Log("No" + type + "in inventory");
             return;
         }
 
-        inventory.Remove(type); //remove first occurrence of  this box type
+        inventory[type]--; //reduce count
 
         //spawn at player position with an offset
         Vector3 spawnPos = transform.position + Vector3.right; //spawn slight to the right
         GameObject prefab = (type == BoxType.Small) ? smallBoxPrefab : bigBoxPrefab;
         GameObject newBox = Instantiate(prefab, spawnPos, Quaternion.identity);
 
-        if (newBox.TryGetComponent(out CollectibleBox component))
+        if (newBox.TryGetComponent(out CollectibleBox box))
         {
-            component.canPickUp = false;
+            box.canPickUp = false;
         }
         Debug.Log("Spawn : " + type);
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        if (ui != null)
+        {
+            ui.UpdateInventory(inventory); 
+        }
     }
 }
