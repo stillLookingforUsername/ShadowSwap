@@ -14,20 +14,20 @@ public class Laser : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Collider2D hitbox;
 
-    void Awake()
+    private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         hitbox = GetComponent<Collider2D>();
     }
 
-    void Start()
+    private void Start()
     {
         isActive = startActive;
         timer = isActive ? activeTime : inactiveTime;
         UpdateLaserState();
     }
 
-    void Update()
+    private void Update()
     {
         timer -= Time.deltaTime;
 
@@ -39,7 +39,7 @@ public class Laser : MonoBehaviour
         }
     }
 
-    void UpdateLaserState()
+    private void UpdateLaserState()
     {
         spriteRenderer.enabled = isActive;
         hitbox.enabled = isActive;
