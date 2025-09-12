@@ -3,6 +3,7 @@ using System;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class ShadowSwap : MonoBehaviour
 {
@@ -62,7 +63,8 @@ public class ShadowSwap : MonoBehaviour
             if (shadowTimer <= 0f)
             {
                 Debug.Log("Player Dies");
-                PlayerHealth.Instance.Die();
+                //PlayerHealth.Instance.Die();
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
         else

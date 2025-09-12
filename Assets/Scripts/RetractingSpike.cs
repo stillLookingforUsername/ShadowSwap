@@ -11,6 +11,7 @@ public class RetractingSpike : MonoBehaviour
     private Vector3 downPos;
     private Vector3 upPos;
     private bool isActive = false;
+    private int damage = 1;
     private float timer;
 
     void Start()
@@ -44,13 +45,12 @@ public class RetractingSpike : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        if (isActive && collision.gameObject.CompareTag("Player"))
+        if (other.gameObject.TryGetComponent(out PlayerHealth playerHealth))
         {
-            // Example: kill player
-            Debug.Log("Player hit by spikes!");
-            // You can call your player damage function here
+            playerHealth.TakeDamage(damage);
         }
     }
 }

@@ -27,10 +27,13 @@ public class PlayerMovement2D : MonoBehaviour
     private float _bufferTimer;
     private Vector3 _respawnPoint;
 
+    private PlayerAudio playerAudio;
+
     private void Awake()
     {
         Instance = this;
         _rb = GetComponent<Rigidbody2D>();
+        playerAudio = GetComponent<PlayerAudio>();
     }
     private void Start()
     {
@@ -48,6 +51,13 @@ public class PlayerMovement2D : MonoBehaviour
             Jump();
             _bufferTimer = 0;
             _coyoteTimer = 0;
+        }
+
+        //walking sound
+        bool walking = Mathf.Abs(_rb.linearVelocity.x) > 0.1f && grounded;
+        if (playerAudio != null)
+        {
+            playerAudio.HandleWalkSound(walking);
         }
     }
 
@@ -69,7 +79,13 @@ public class PlayerMovement2D : MonoBehaviour
         Vector2 v = _rb.linearVelocity;
         v.y = jumpForce;
         _rb.linearVelocity = v;
-        OnPlayerJump?.Invoke(this,EventArgs.Empty);
+        OnPlayerJump?.Invoke(this, EventArgs.Empty);
+
+        //Play jump sound
+        if (playerAudio != null)
+        {
+            playerAudio.PlayJump();
+        }
     }
 
     // Input System callbacks
