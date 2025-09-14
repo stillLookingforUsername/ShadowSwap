@@ -1,14 +1,14 @@
 using UnityEngine;
 using DG.Tweening;
 
-public class DotweenMovingPlatform : MonoBehaviour
+public class DotweenUpDownMotion : MonoBehaviour
 {
     [SerializeField] private float moveDistance = 3f;   //how far up/down
     [SerializeField] private float duration = 3f;   //how long it takes
     [SerializeField] private bool moveOnStart = true;
 
     private Tween platformTween;
-
+    
     private void Start()
     {
         if (moveOnStart)
