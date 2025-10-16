@@ -1,43 +1,52 @@
 fileFormatVersion: 2
-guid: 5ba8cd246564fad48ba059cde0a13687
+guid: fb576d698574db448bbf22882b910471
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8810848480160826624
-    second: Jump (2)_0
+      213: 7275574721534881234
+    second: BorderInventory_0
   - first:
-      213: -2874043753923014105
-    second: Jump (2)_1
+      213: -3207589668017511103
+    second: BorderInventory_1
   - first:
-      213: 1131835556448801047
-    second: Jump (2)_2
+      213: 4638213441890113393
+    second: BorderInventory_2
   - first:
-      213: -5066996784072758087
-    second: Jump (2)_3
+      213: 6265215176551224871
+    second: BorderInventory_3
   - first:
-      213: -1386309173676436262
-    second: Jump (2)_4
+      213: 4005901247079780524
+    second: BorderInventory_4
   - first:
-      213: -4452511194727665089
-    second: Jump (2)_5
+      213: -1746106971879392165
+    second: BorderInventory_5
   - first:
-      213: -7489751277522312982
-    second: Jump (2)_6
+      213: 67584489988893992
+    second: BorderInventory_6
   - first:
-      213: -3940304389233945542
-    second: Jump (2)_7
+      213: 6161469232987730326
+    second: BorderInventory_7
   - first:
-      213: -4731032374344339658
-    second: Jump (2)_8
+      213: 3791207267293687013
+    second: BorderInventory_8
   - first:
-      213: -1988222658466473599
-    second: Jump (2)_9
+      213: 1766258602363381276
+    second: BorderInventory_9
   - first:
-      213: -5955178395463991032
-    second: Jump (2)_10
+      213: 2581888902901217453
+    second: BorderInventory_10
   - first:
-      213: 3041342293929006634
-    second: Jump (2)_11
+      213: 2047854635968329060
+    second: BorderInventory_11
+  - first:
+      213: 2258069924675466217
+    second: BorderInventory_12
+  - first:
+      213: -3581603292984183363
+    second: BorderInventory_13
+  - first:
+      213: 4372913015067794619
+    second: BorderInventory_14
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -84,7 +93,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 170
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -129,56 +138,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Jump (2)_0
+      name: BorderInventory_0
       rect:
         serializedVersion: 2
-        x: 96
-        y: 1215
-        width: 202
-        height: 262
+        x: 71
+        y: 1253
+        width: 296
+        height: 219
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,20 +157,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 00b393a3df399b580800000000000000
-      internalID: -8810848480160826624
+      spriteID: 2dde5ed59a808f460800000000000000
+      internalID: 7275574721534881234
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump (2)_1
+      name: BorderInventory_1
       rect:
         serializedVersion: 2
-        x: 402
-        y: 1216
-        width: 204
-        height: 261
+        x: 399
+        y: 1253
+        width: 311
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -209,20 +179,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7221d72ee685d18d0800000000000000
-      internalID: -2874043753923014105
+      spriteID: 1456a94013a5c73d0800000000000000
+      internalID: -3207589668017511103
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump (2)_2
+      name: BorderInventory_2
       rect:
         serializedVersion: 2
-        x: 726
-        y: 1215
-        width: 202
-        height: 262
+        x: 735
+        y: 1187
+        width: 222
+        height: 285
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -231,20 +201,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 711994e117615bf00800000000000000
-      internalID: 1131835556448801047
+      spriteID: 1775d441d8e3e5040800000000000000
+      internalID: 4638213441890113393
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump (2)_3
+      name: BorderInventory_3
       rect:
         serializedVersion: 2
-        x: 99
-        y: 877
-        width: 203
-        height: 263
+        x: 70
+        y: 1009
+        width: 297
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -253,20 +223,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9bceb4f55496ea9b0800000000000000
-      internalID: -5066996784072758087
+      spriteID: 726d8bf220482f650800000000000000
+      internalID: 6265215176551224871
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump (2)_4
+      name: BorderInventory_4
       rect:
         serializedVersion: 2
-        x: 411
-        y: 876
-        width: 200
-        height: 265
+        x: 399
+        y: 1009
+        width: 311
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -275,20 +245,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ad4962ac627d2cce0800000000000000
-      internalID: -1386309173676436262
+      spriteID: ca01c75c5f1d79730800000000000000
+      internalID: 4005901247079780524
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump (2)_5
+      name: BorderInventory_5
       rect:
         serializedVersion: 2
-        x: 734
-        y: 877
-        width: 199
-        height: 263
+        x: 735
+        y: 878
+        width: 222
+        height: 283
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -297,20 +267,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f32bec7a8a08532c0800000000000000
-      internalID: -4452511194727665089
+      spriteID: b5cbb49d5f494c7e0800000000000000
+      internalID: -1746106971879392165
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump (2)_6
+      name: BorderInventory_6
       rect:
         serializedVersion: 2
-        x: 112
-        y: 529
+        x: 71
+        y: 780
         width: 196
-        height: 262
+        height: 201
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -319,20 +289,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ae0214f35ee0f0890800000000000000
-      internalID: -7489751277522312982
+      spriteID: 82d2d1e4cbb10f000800000000000000
+      internalID: 67584489988893992
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump (2)_7
+      name: BorderInventory_7
       rect:
         serializedVersion: 2
-        x: 420
-        y: 529
-        width: 195
-        height: 261
+        x: 297
+        y: 780
+        width: 192
+        height: 201
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -341,20 +311,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a345cccd80a3159c0800000000000000
-      internalID: -3940304389233945542
+      spriteID: 6917bbe5f9fe18550800000000000000
+      internalID: 6161469232987730326
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump (2)_8
+      name: BorderInventory_8
       rect:
         serializedVersion: 2
-        x: 740
-        y: 529
-        width: 197
-        height: 262
+        x: 518
+        y: 551
+        width: 192
+        height: 430
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -363,20 +333,42 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 63f25522f1ff75eb0800000000000000
-      internalID: -4731032374344339658
+      spriteID: 5ec6be44ce21d9430800000000000000
+      internalID: 3791207267293687013
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump (2)_9
+      name: BorderInventory_9
       rect:
         serializedVersion: 2
-        x: 113
-        y: 102
+        x: 735
+        y: 551
+        width: 221
+        height: 299
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c16e85f37d2038810800000000000000
+      internalID: 1766258602363381276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BorderInventory_10
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 551
         width: 196
-        height: 259
+        height: 201
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -385,20 +377,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 18919b3b60a6864e0800000000000000
-      internalID: -1988222658466473599
+      spriteID: da833fa1746b4d320800000000000000
+      internalID: 2581888902901217453
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump (2)_10
+      name: BorderInventory_11
       rect:
         serializedVersion: 2
-        x: 419
-        y: 167
-        width: 195
-        height: 275
+        x: 297
+        y: 551
+        width: 192
+        height: 200
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -407,20 +399,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 801c94c1dc4fa5da0800000000000000
-      internalID: -5955178395463991032
+      spriteID: 465778001f07b6c10800000000000000
+      internalID: 2047854635968329060
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump (2)_11
+      name: BorderInventory_12
       rect:
         serializedVersion: 2
-        x: 755
-        y: 104
-        width: 194
-        height: 251
+        x: 71
+        y: 79
+        width: 389
+        height: 442
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -429,8 +421,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a26920ed3b4053a20800000000000000
-      internalID: 3041342293929006634
+      spriteID: 9e3364af1a6465f10800000000000000
+      internalID: 2258069924675466217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BorderInventory_13
+      rect:
+        serializedVersion: 2
+        x: 495
+        y: 301
+        width: 462
+        height: 220
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db5fe4bf7c69b4ec0800000000000000
+      internalID: -3581603292984183363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BorderInventory_14
+      rect:
+        serializedVersion: 2
+        x: 495
+        y: 78
+        width: 462
+        height: 197
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bbc5cc0f735bfac30800000000000000
+      internalID: 4372913015067794619
       vertices: []
       indices: 
       edges: []
@@ -449,18 +485,21 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Jump (2)_0: -8810848480160826624
-      Jump (2)_1: -2874043753923014105
-      Jump (2)_10: -5955178395463991032
-      Jump (2)_11: 3041342293929006634
-      Jump (2)_2: 1131835556448801047
-      Jump (2)_3: -5066996784072758087
-      Jump (2)_4: -1386309173676436262
-      Jump (2)_5: -4452511194727665089
-      Jump (2)_6: -7489751277522312982
-      Jump (2)_7: -3940304389233945542
-      Jump (2)_8: -4731032374344339658
-      Jump (2)_9: -1988222658466473599
+      BorderInventory_0: 7275574721534881234
+      BorderInventory_1: -3207589668017511103
+      BorderInventory_10: 2581888902901217453
+      BorderInventory_11: 2047854635968329060
+      BorderInventory_12: 2258069924675466217
+      BorderInventory_13: -3581603292984183363
+      BorderInventory_14: 4372913015067794619
+      BorderInventory_2: 4638213441890113393
+      BorderInventory_3: 6265215176551224871
+      BorderInventory_4: 4005901247079780524
+      BorderInventory_5: -1746106971879392165
+      BorderInventory_6: 67584489988893992
+      BorderInventory_7: 6161469232987730326
+      BorderInventory_8: 3791207267293687013
+      BorderInventory_9: 1766258602363381276
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

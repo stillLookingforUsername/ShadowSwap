@@ -37,7 +37,6 @@ public class PlayerMovement2D : MonoBehaviour
         Instance = this;
         _rb = GetComponent<Rigidbody2D>();
         playerAudio = GetComponent<PlayerAudio>();
-		_animator = GetComponent<Animator>();
     }
     private void Start()
     {
@@ -56,8 +55,6 @@ public class PlayerMovement2D : MonoBehaviour
             _bufferTimer = 0;
             _coyoteTimer = 0;
         }
-
-        UpdateAnimationParameters();
 
         //walking sound
         bool walking = Mathf.Abs(_rb.linearVelocity.x) > 0.1f && grounded;
@@ -92,30 +89,6 @@ public class PlayerMovement2D : MonoBehaviour
         {
             playerAudio.PlayJump();
         }
-
-        if (_animator != null)
-        {
-            _animator.SetTrigger("JumpAnimParam");
-        }
-    }
-
-    private void UpdateAnimationParameters()
-    {
-        if (_animator == null) return;
-
-        _isGrounded = IsGrounded();
-        float speed = Mathf.Abs(_rb.linearVelocity.x);
-
-        _animator.SetFloat("SpeedAnimParam", speed);
-        _animator.SetBool("IsGroundedAnimParam", _isGrounded);
-
-        if (Mathf.Abs(_move) > 0.01f)
-        {
-            Vector3 scale = transform.localScale;
-            scale.x = Mathf.Sign(_move) * Mathf.Abs(scale.x);
-            transform.localScale = scale;
-        }
-
     }
 
     // Input System callbacks
