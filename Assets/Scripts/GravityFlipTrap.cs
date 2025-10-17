@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using UnityEngine;
 public class GravityFlipTrap : MonoBehaviour
 {
 
+    public static event Action<bool> OnDeathZoneToogle;
+    [SerializeField] private bool enableOnTrigger = true;
     public float flipDuration = 3f; // How long gravity stays inverted
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -10,6 +13,7 @@ public class GravityFlipTrap : MonoBehaviour
         if (other.TryGetComponent(out Rigidbody2D rb))
         {
             StartCoroutine(FlipGravity(rb));
+            OnDeathZoneToogle?.Invoke(enableOnTrigger); //send mssg to enable/disable death trigger
         }
     }
 
