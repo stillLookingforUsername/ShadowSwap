@@ -12,8 +12,8 @@ public class InventoryUI : MonoBehaviour
 
     public void UpdateInventory(Dictionary<BoxType, int> inventory)
     {
-        Debug.Log("UpdateInventory is called");
-        smallBox.text = "Small: " + inventory[BoxType.Small];
-        bigBox.text = "Big: " + inventory[BoxType.Big];
+        if (inventory == null) return;
+        if (smallBox) smallBox.text = "Small: " + (inventory.TryGetValue(BoxType.Small, out int small) ? small : 0);
+        if (bigBox) bigBox.text = "Big: " + (inventory.TryGetValue(BoxType.Big, out int big) ? big : 0);
     }
 }

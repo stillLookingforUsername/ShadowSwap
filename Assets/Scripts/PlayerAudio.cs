@@ -11,21 +11,16 @@ public class PlayerAudio : MonoBehaviour
     private bool isWalking = false;
     private float walkStepDelay = 0.4f; //time between footstep
     private float walktimer = 0f;
-/*
-    private void Awake()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
 
-*/
     public void PlayJump()
     {
         //audioSource.PlayOneShot(jumpClip);
-        if(jumpClip != null)
+        if(jumpClip != null && SFXManager.Instance)
             SFXManager.Instance.PlaySFX(jumpClip);
     }
     public void HandleWalkSound(bool walking)
     {
+        isWalking = walking;
         if (isWalking)
         {
             walktimer -= Time.deltaTime;
@@ -33,7 +28,7 @@ public class PlayerAudio : MonoBehaviour
             if (walktimer <= 0f)
             {
                 //audioSource.PlayOneShot(walkClip);
-                if(walkClip != null)
+                if(walkClip != null && SFXManager.Instance)
                     SFXManager.Instance.PlaySFX(walkClip);
                 walktimer = walkStepDelay;
             }

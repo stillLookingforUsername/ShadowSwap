@@ -16,10 +16,12 @@ public class SpinUIOnKey : MonoBehaviour
     private void OnDisable()
     {
         ShadowSwap.OnLaneChanged -= HandleSpin;
+        spinTween?.Kill();
     }
 
     private void HandleSpin(object sender,ShadowSwap.OnLaneChangedEventArgs e)
     {
+        if (!targetUI) return;
         spinTween?.Kill();  //kill any previous tween if already running
 
         //spin clockwise then back to orignal

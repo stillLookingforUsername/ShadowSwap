@@ -30,4 +30,6 @@ public class DotweenUpDownMotion : MonoBehaviour
         platformTween?.Kill();
     }
 
+    private void OnDestroy() => StopMoving();
+
 }

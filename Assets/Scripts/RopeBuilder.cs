@@ -9,6 +9,11 @@ public class RopeBuilder : MonoBehaviour
 
     private void Start()
     {
+        if (!ropeSegmentPrefab || !ropeSegmentPrefab.GetComponent<Rigidbody2D>() || !ropeSegmentPrefab.GetComponent<HingeJoint2D>())
+        {
+            Debug.LogError("RopeBuilder requires a segment prefab with Rigidbody2D and HingeJoint2D.", this);
+            return;
+        }
         Rigidbody2D previousSegmentRb = GetComponent<Rigidbody2D>();
 
         for(int i=0;i<segmentCount;i++)
@@ -24,8 +29,9 @@ public class RopeBuilder : MonoBehaviour
             }
             else
             {
-                joint.connectedBody = transform.GetChild(i - 1).GetComponent<Rigidbody2D>();    //connect to previous segment
+                joint.connectedBody = previousSegmentRb;
             }
+            previousSegmentRb = newSegment.GetComponent<Rigidbody2D>();
 
             //if last segment -> add trigger for player to grab
 
@@ -34,7 +40,7 @@ public class RopeBuilder : MonoBehaviour
                 CircleCollider2D grabTrigger = newSegment.AddComponent<CircleCollider2D>();
                 grabTrigger.isTrigger = true;
                 grabTrigger.radius = 0.2f;
-                grabTrigger.gameObject.tag = "RopeGrab";
+                if (!newSegment.GetComponent<RopeGrabPoint>()) newSegment.AddComponent<RopeGrabPoint>();
             }
         }
     }

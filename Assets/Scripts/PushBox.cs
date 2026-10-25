@@ -16,7 +16,7 @@ public class PushBox : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Player"))
+        if (collision.collider.GetComponentInParent<PlayerMovement2D>() && collision.contactCount > 0)
         {
             Vector2 pushDir = collision.GetContact(0).normal * -1; // opposite of collision normal
             _rb.AddForce(pushDir * pushForce, ForceMode2D.Impulse);

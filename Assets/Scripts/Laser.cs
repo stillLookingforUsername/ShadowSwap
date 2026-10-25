@@ -41,8 +41,8 @@ public class Laser : MonoBehaviour
 
     private void UpdateLaserState()
     {
-        spriteRenderer.enabled = isActive;
-        hitbox.enabled = isActive;
+        if (spriteRenderer) spriteRenderer.enabled = isActive;
+        if (hitbox) hitbox.enabled = isActive;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

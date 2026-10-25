@@ -11,6 +11,16 @@ public class ArrowIndicator : MonoBehaviour
     public Ease moveEase = Ease.InOutSine;
 
     private Tween _moveTween;
+    private Tween _fadeTween;
+    private SpriteRenderer spriteRenderer;
+    private void Awake() => spriteRenderer = GetComponent<SpriteRenderer>();
+    private void OnEnable() { if (orbEvent) orbEvent.OnOrbDetectedPlayer += CompleteHint; }
+    private void OnDisable()
+    {
+        if (orbEvent) orbEvent.OnOrbDetectedPlayer -= CompleteHint;
+        _fadeTween?.Kill();
+    }
+    private void CompleteHint() { if (this) Destroy(gameObject); }
 
     private void Start()
     {
@@ -21,7 +31,6 @@ public class ArrowIndicator : MonoBehaviour
         _moveTween = transform.DOMoveY(endPos.y, moveDuration)
             .SetEase(moveEase)
             .SetLoops(-1, LoopType.Yoyo);
-        orbEvent.OnOrbDetectedPlayer += OnDestroy;
         /*
         transform.DOScale(1.1f, moveDuration)
             .SetLoops(-1, LoopType.Yoyo)
@@ -33,7 +42,7 @@ public class ArrowIndicator : MonoBehaviour
     {
         if (other.TryGetComponent<PlayerMovement2D>(out PlayerMovement2D player))
         {
-            GetComponent<SpriteRenderer>().DOFade(1f, 0.5f); //show
+            FadeTo(1f);
         }
     }
 
@@ -41,7 +50,7 @@ public class ArrowIndicator : MonoBehaviour
     {
         if(other.TryGetComponent<PlayerMovement2D>(out PlayerMovement2D player))
         {
-            GetComponent<SpriteRenderer>().DOFade(0f, 0.5f);    //hide
+            FadeTo(0f);
         }
     }
 
@@ -52,6 +61,13 @@ public class ArrowIndicator : MonoBehaviour
         {
             _moveTween.Kill();
         }
-        Destroy(this.gameObject);
+        _fadeTween?.Kill();
+    }
+
+    private void FadeTo(float alpha)
+    {
+        if (!spriteRenderer) return;
+        _fadeTween?.Kill();
+        _fadeTween = spriteRenderer.DOFade(alpha, 0.5f);
     }
 }

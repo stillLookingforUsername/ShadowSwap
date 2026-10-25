@@ -9,6 +9,7 @@ public class EnemyPatroller2D : MonoBehaviour
     private void Start(){ _target = b; }
     void Update()
     {
+        if (!_target || !a || !b) return;
         transform.position = Vector2.MoveTowards(transform.position, _target.position, speed * Time.deltaTime);
 
          // Flip based on direction

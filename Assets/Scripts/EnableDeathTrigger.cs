@@ -7,10 +7,10 @@ public class EnableDeathTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!isActive) return;
+        if (!isActive || Time.timeScale <= 0f || LevelRunTracker.HasOpenResults) return;
         if (other.TryGetComponent<PlayerMovement2D>(out PlayerMovement2D player))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            SceneNavigation.ReloadCurrent();
         }
     }
 

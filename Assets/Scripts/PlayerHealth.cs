@@ -10,42 +10,48 @@ public class PlayerHealth : MonoBehaviour
 
     // Event so UI (or other systems) can react to health changes
     public event Action<int, int> OnHealthChanged;
+    private int lastDeathFrame = -1;
+    public int CurrentHealth => currentHealth;
+    public int MaxHealth => maxHealth;
+
     private void Awake()
     {
         Instance = this;
+        maxHealth = Mathf.Max(1, maxHealth);
+        currentHealth = maxHealth;
+        playerMovement2D = GetComponent<PlayerMovement2D>();
     }
 
     private void Start()
     {
-        currentHealth = maxHealth;
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
-        playerMovement2D = GetComponent<PlayerMovement2D>();
     }
 
     public void TakeDamage(int damage)
     {
-        Debug.Log("TakeDamge called");
+        if (damage <= 0 || Time.timeScale <= 0f || LevelRunTracker.HasOpenResults || SceneNavigation.IsLoading || lastDeathFrame == Time.frameCount) return;
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         if (currentHealth <= 0)
         {
-            Debug.Log("Player died");
             Die();
+            return;
         }
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
     public void Die()
     {
+        if (Time.timeScale <= 0f || LevelRunTracker.HasOpenResults || SceneNavigation.IsLoading || lastDeathFrame == Time.frameCount) return;
+        lastDeathFrame = Time.frameCount;
         currentHealth = maxHealth;
-        playerMovement2D.Respawn();
-    }
-
-/*
-    public void Heal(int amount)
-    {
-        currentHealth += amount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        if (playerMovement2D) playerMovement2D.Respawn();
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
-    */
+
+    private void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
+    }
+
+
 }

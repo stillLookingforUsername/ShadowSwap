@@ -27,12 +27,36 @@ public class ShadowSwap : MonoBehaviour
 
     private bool _inShadow = false;
     private float _cooldown;
+    private Rigidbody2D _rb;
+    private PlayerMovement2D _movement;
     public enum Lane { OverWorld, ShadowWorld }
     public Lane currentLane = Lane.OverWorld;
     [Header("TimerUI")]
     public TMPro.TextMeshProUGUI shadowTimerUI;
 
     public static event EventHandler<OnLaneChangedEventArgs> OnLaneChanged;
+    public enum SwapOutcome { Succeeded, Blocked, CoolingDown }
+    public event EventHandler<SwapAttemptEventArgs> OnSwapAttempted;
+    public bool IsInShadow => _inShadow;
+    public bool DestinationClear { get; private set; }
+    public float CooldownRemaining => _cooldown;
+    public float ShadowTimeRemaining => _inShadow ? Mathf.Max(0f, shadowTimer) : shadowTimeLimit;
+
+    public class SwapAttemptEventArgs : EventArgs
+    {
+        public SwapOutcome Outcome { get; }
+        public Vector3 Origin { get; }
+        public Vector3 Destination { get; }
+        public bool WasAirborne { get; }
+
+        public SwapAttemptEventArgs(SwapOutcome outcome, Vector3 origin, Vector3 destination, bool wasAirborne = false)
+        {
+            Outcome = outcome;
+            Origin = origin;
+            Destination = destination;
+            WasAirborne = wasAirborne;
+        }
+    }
     public class OnLaneChangedEventArgs : EventArgs
     {
         public Lane NewLane { get; }
@@ -45,6 +69,23 @@ public class ShadowSwap : MonoBehaviour
     private void Reset()
     {
         playerCollider = GetComponent<BoxCollider2D>();
+    }
+
+    private void Awake()
+    {
+        _rb = GetComponent<Rigidbody2D>();
+        _movement = GetComponent<PlayerMovement2D>();
+        if (!playerCollider) playerCollider = GetComponent<BoxCollider2D>();
+        blockingMask |= LayerMask.GetMask("Hazard_Over", "Hazard_Shadow");
+        shadowTimer = shadowTimeLimit;
+    }
+
+    private void OnEnable() => MobileGameInput.ActionPressed += OnTouchAction;
+    private void OnDisable() => MobileGameInput.ActionPressed -= OnTouchAction;
+
+    private void OnTouchAction(MobileGameInput.Control control)
+    {
+        if (control == MobileGameInput.Control.Swap) RequestSwap();
     }
 
     private void Update()
@@ -64,7 +105,7 @@ public class ShadowSwap : MonoBehaviour
             {
                 Debug.Log("Player Dies");
                 //PlayerHealth.Instance.Die();
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                SceneNavigation.ReloadCurrent();
             }
         }
         else
@@ -81,9 +122,10 @@ public class ShadowSwap : MonoBehaviour
     private void UpdateGhost()
     {
         Vector3 target = GetTargetPos();
-        if (shadowGhost) shadowGhost.position = target;
+        if (shadowGhost) shadowGhost.position = transform.position + LaneOffset();
         bool safe = IsSwapSafe(target);
-        if (ghostRenderer) ghostRenderer.color = IsSwapSafe(target) ? Color.green : Color.red;
+        DestinationClear = safe;
+        if (ghostRenderer) ghostRenderer.color = safe ? Color.green : Color.red;
         if (swapIndicatorUI)
         {
             swapIndicatorUI.color = safe ? Color.green : Color.red;
@@ -94,39 +136,82 @@ public class ShadowSwap : MonoBehaviour
         if (cooldownUI)
         {
             //normalize value : 1 = full , 0 = ready
-            float t = 1f - (_cooldown / swapCooldown);
+            float t = swapCooldown > 0f ? Mathf.Clamp01(1f - (_cooldown / swapCooldown)) : 1f;
             cooldownUI.fillAmount = t;
         }
     }
 
     private Vector3 GetTargetPos()
     {
-        return transform.position + (_inShadow ? (Vector3)(-shadowOffset) : (Vector3)shadowOffset);
+        Vector3 position = _rb ? new Vector3(_rb.position.x, _rb.position.y, transform.position.z) : transform.position;
+        return position + LaneOffset();
     }
+
+    private Vector3 LaneOffset() => _inShadow ? (Vector3)(-shadowOffset) : (Vector3)shadowOffset;
 
     private bool IsSwapSafe(Vector3 targetPos)
     {
-        if (!playerCollider) return true;
+        if (!playerCollider) return false;
         Vector2 size = playerCollider.bounds.size * 0.98f; // tiny shrink to avoid false positives
-        return !Physics2D.OverlapBox(targetPos, size, 0f, blockingMask);
+        Vector2 origin = _rb ? _rb.position : (Vector2)transform.position;
+        Vector2 center = (Vector2)playerCollider.bounds.center + (Vector2)targetPos - origin;
+        return !Physics2D.OverlapBox(center, size, 0f, blockingMask);
     }
 
     public void OnSwap(InputValue v)
     {
-        if (!v.isPressed || _cooldown > 0f) return;
+        if (v.isPressed) RequestSwap();
+    }
+
+    public void RequestSwap()
+    {
+        if (!isActiveAndEnabled || Time.timeScale <= 0f || SceneNavigation.IsLoading ||
+            (_movement && !_movement.CanAcceptInput)) return;
 
         Vector3 target = GetTargetPos();
-        if (!IsSwapSafe(target)) return;
+        Vector3 origin = target - LaneOffset();
+        if (_cooldown > 0f)
+        {
+            OnSwapAttempted?.Invoke(this, new SwapAttemptEventArgs(SwapOutcome.CoolingDown, origin, target));
+            return;
+        }
+        if (!IsSwapSafe(target))
+        {
+            OnSwapAttempted?.Invoke(this, new SwapAttemptEventArgs(SwapOutcome.Blocked, origin, target));
+            return;
+        }
 
-        transform.position = target;
+        bool wasAirborne = _movement && !_movement.IsGrounded();
+        var rope = GetComponent<PlayerRope>();
+        if (rope) rope.DetachFromRope();
+        if (_movement) _movement.DetachFromMovingPlatform();
+        if (_movement) _movement.Teleport(target);
+        else
+        {
+            if (_rb) _rb.position = target;
+            transform.position = target;
+        }
         _inShadow = !_inShadow;
         _cooldown = swapCooldown;
         currentLane = (currentLane == Lane.OverWorld) ? Lane.ShadowWorld : Lane.OverWorld;
 
         OnLaneChanged?.Invoke(this, new OnLaneChangedEventArgs(currentLane));
+        OnSwapAttempted?.Invoke(this, new SwapAttemptEventArgs(SwapOutcome.Succeeded, origin, target, wasAirborne));
 
         // Optional: tiny hitstop for juice
         // StartCoroutine(Hitstop(0.05f));
+    }
+
+    public void RestoreLane(Lane lane)
+    {
+        bool changed = currentLane != lane;
+        currentLane = lane;
+        _inShadow = lane == Lane.ShadowWorld;
+        shadowTimer = shadowTimeLimit;
+        _cooldown = 0f;
+        UpdateGhost();
+        UpdateCooldownUI();
+        if (changed) OnLaneChanged?.Invoke(this, new OnLaneChangedEventArgs(lane));
     }
 
     void OnDrawGizmosSelected()

@@ -4,6 +4,8 @@ public class OrbTransport : MonoBehaviour
     private Transform _player;
     private Rigidbody2D _playerRb;
     private bool _carryingPlayer = false;
+    private PlayerMovement2D movement;
+    private bool wasSimulated;
 
     public bool IsCarryingPlayer()
     {
@@ -11,10 +13,15 @@ public class OrbTransport : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out PlayerMovement2D player) && !_carryingPlayer)
+        if (Time.timeScale > 0f && collision.TryGetComponent(out PlayerMovement2D player) && !_carryingPlayer && player.CanAcceptInput)
         {
             _player = collision.transform;
             _playerRb = _player.GetComponent<Rigidbody2D>();
+            movement = player;
+            wasSimulated = _playerRb && _playerRb.simulated;
+            var rope = player.GetComponent<PlayerRope>();
+            if (rope) rope.DetachFromRope();
+            player.SetCarrier(this);
 
             // Parent to orb
             _player.SetParent(transform);
@@ -24,8 +31,6 @@ public class OrbTransport : MonoBehaviour
             _player.localPosition = Vector3.zero;
 
             // Disable movement script
-            var movement = _player.GetComponent<PlayerMovement2D>();
-            if (movement) movement.enabled = false;
 
             // Freeze physics
             if (_playerRb)
@@ -42,21 +47,22 @@ public class OrbTransport : MonoBehaviour
         if (_player)
         {
             _player.SetParent(null);
-            _player.rotation = Quaternion.identity; //reset rotation
 
             // Re-enable player movement
-            var movement = _player.GetComponent<PlayerMovement2D>();
-            if (movement) movement.enabled = true;
+            if (movement) movement.SetCarrier(null);
 
             // Re-enable physics
             if (_playerRb)
             {
-                _playerRb.simulated = true;
+                _playerRb.simulated = wasSimulated;
             }
 
-            _player = null;
-            _playerRb = null;
-            _carryingPlayer = false;
         }
+        _player = null;
+        _playerRb = null;
+        movement = null;
+        _carryingPlayer = false;
     }
+
+    private void OnDisable() => ReleasePlayer();
 }

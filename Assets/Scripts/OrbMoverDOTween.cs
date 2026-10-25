@@ -21,14 +21,15 @@ public class OrbMoverDOTween : MonoBehaviour
         if (_hasmoved) return;
         if (collision.TryGetComponent(out PlayerMovement2D player))
         {
-            _hasmoved = true;
             StartMoving(); //there is one bug here after dropping the player, the orb moves again from B->A->B again
         }
     }
 
     private void StartMoving()
     {
-        if (wayPoints.Length < 2) return;
+        if (wayPoints == null || wayPoints.Length < 2) return;
+        foreach (Transform point in wayPoints) if (!point) return;
+        _hasmoved = true;
 
         _orbTransport = GetComponent<OrbTransport>();
 
@@ -52,12 +53,13 @@ public class OrbMoverDOTween : MonoBehaviour
 
     private void Update()
     {
-        if (!_orbTransport) return;
+        if (!_orbTransport || wayPoints == null || wayPoints.Length == 0) return;
 
         // Release player when orb is close to final waypoint
         if (_orbTransport.IsCarryingPlayer())
         {
             Transform lastPoint = wayPoints[wayPoints.Length - 1];
+            if (!lastPoint) return;
             if (Vector3.Distance(transform.position, lastPoint.position) < 0.2f)
             {
                 _orbTransport.ReleasePlayer();

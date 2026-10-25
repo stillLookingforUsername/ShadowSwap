@@ -9,7 +9,7 @@ public class DeathCollider : MonoBehaviour
             if (player != null)
             {
                 //player.Die();
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                if (Time.timeScale > 0f && !LevelRunTracker.HasOpenResults) SceneNavigation.ReloadCurrent();
             }
         }
     }

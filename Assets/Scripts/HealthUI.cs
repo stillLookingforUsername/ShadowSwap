@@ -6,13 +6,17 @@ public class HealthUI : MonoBehaviour
     [SerializeField] private PlayerHealth playerHealth; // drag in Inspector
     [SerializeField] private Image[] healthImages;
 
-    private void Awake()
+    private void OnEnable()
     {
+        if (!playerHealth) playerHealth = FindFirstObjectByType<PlayerHealth>();
         if (playerHealth != null)
+        {
             playerHealth.OnHealthChanged += UpdateHealthUI;
+            UpdateHealthUI(playerHealth.CurrentHealth, playerHealth.MaxHealth);
+        }
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         if (playerHealth != null)
             playerHealth.OnHealthChanged -= UpdateHealthUI;
@@ -20,6 +24,7 @@ public class HealthUI : MonoBehaviour
 
     private void UpdateHealthUI(int currentHealth, int maxHealth)
     {
+        if (healthImages == null) return;
         for (int i = 0; i < healthImages.Length; i++)
         {
             if (i < currentHealth)
@@ -31,6 +36,7 @@ public class HealthUI : MonoBehaviour
 
     private void SetImageAlpha(Image img, float alpha)
     {
+        if (!img) return;
         Color c = img.color;
         c.a = alpha;
         img.color = c;

@@ -12,34 +12,12 @@ public class GravityFlipTrap : MonoBehaviour
     {
         if (other.TryGetComponent(out Rigidbody2D rb))
         {
-            StartCoroutine(FlipGravity(rb));
+            if (Time.timeScale <= 0f || LevelRunTracker.HasOpenResults) return;
+            var state = rb.GetComponent<GravityFlipState>();
+            if (!state) state = rb.gameObject.AddComponent<GravityFlipState>();
+            state.Flip(flipDuration);
             OnDeathZoneToogle?.Invoke(enableOnTrigger); //send mssg to enable/disable death trigger
         }
     }
 
-    private IEnumerator FlipGravity(Rigidbody2D rb)
-    {
-        Debug.Log("Gravity flipped!");
-
-        // Invert player gravity
-        rb.gravityScale *= -1;
-
-        // Flip player visually (optional: upside-down sprite)
-        rb.transform.localScale = new Vector3(rb.transform.localScale.x, -rb.transform.localScale.y, rb.transform.localScale.z);
-
-        // Wait for duration
-        yield return new WaitForSeconds(flipDuration);
-
-        // Restore gravity
-        rb.gravityScale *= -1;
-
-        //to effect everything thing
-        //Physics2D.gravity *= -1;
-
-
-        // Flip sprite back
-        rb.transform.localScale = new Vector3(rb.transform.localScale.x, -rb.transform.localScale.y, rb.transform.localScale.z);
-
-        Debug.Log("Gravity restored!");
-    }
 }
